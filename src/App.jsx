@@ -1,9 +1,14 @@
 import "./App.scss";
+import Home from "./views/Home/Home";
+import Header from "./components/Header/Header";
 
 export default function App() {
   return (
-    <div>
-      <h1>TODO List</h1>
-    </div>
+    <>
+      <main>
+        <Header appName="To-Do List with React" />
+        <Home />
+      </main>
+    </>
   )
 }
