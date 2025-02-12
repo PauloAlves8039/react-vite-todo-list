@@ -1,46 +1,42 @@
-import { useState } from "react";
+import { useContext } from "react";
+import { TodosContext } from "../../TodosContext.jsx";
 import Todo from "./Todo.jsx";
 
-const initialTodos = [
-  { id: 0, title: 'Do Groceries', description: 'Buy apples, rice, juice and toilet paper.', isDone: true },
-  { id: 1, title: 'Study React', description: 'Understand context & reducers.', isDone: false},
-  { id: 2, title: 'Learn Redux', description: 'Learn state management with Redux', isDone: false }
-];
-
 export default function TodosList() {
-  
-  const [todos, setTodos] = useState(initialTodos);
+  const store = useContext(TodosContext);
 
   function deleteHandler(id) {
-    if (confirm("Are you sure you want to delete the to-do?")){
-      setTodos(todos.filter(todo => todo.id !== id));
+    if (confirm("Are you sure you want to delete the to-do?")) {
+      store.setTodos(store.todos.filter(todo => todo.id !== id));
     }
   }
 
   function toggleIsDoneHandler(id) {
-    setTodos(todos.map(todo => {
+
+    store.setTodos(store.todos.map(todo => {
       if (todo.id === id) {
-        todo.isDone = !todo.isDone;
+        todo.isDone = !todo.isDone
         return todo;
-     }
-     else {
-      return todo;
-     }
-    }));
+      } else {
+        return todo;
+      }
+    }
+    ));
   }
-  
+
   return (
     <>
-        <div className="todos">
-          {todos.map(todo => 
+      <div className="todos">
+
+        {store.todos.map(todo =>
           <Todo
             deleteTodo={(id) => deleteHandler(id)}
             toggleIsDone={(id) => toggleIsDoneHandler(id)}
             todo={todo}
             key={todo.id}
           />
-          )}
-        </div>
+        )}
+      </div>
     </>
-  )
+  );
 }
