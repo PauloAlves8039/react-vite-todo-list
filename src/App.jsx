@@ -1,7 +1,9 @@
 import Home from "./views/Home/Home";
 import Header from "./components/Header/Header";
 import { TodosContext } from "./TodosContext.jsx";
+import todosReducer from "./TodosReducer.jsx";
 import { useState } from "react";
+import { useReducer } from "react";
 
 import "./App.scss";
 
@@ -12,12 +14,12 @@ const initialTodos = [
 ];
 
 export default function App() {
-  const [todos, setTodos] = useState(initialTodos);
+  const [todos, dispatch] = useReducer(todosReducer, initialTodos);
 
   return (
     <>
       <main>
-        <TodosContext.Provider value={{todos, setTodos}}> 
+        <TodosContext.Provider value={{todos, dispatch}}> 
           <Header appName="To-Do List with React" />
           <Home />
           </TodosContext.Provider>
