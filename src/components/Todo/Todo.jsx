@@ -1,9 +1,8 @@
-import { useContext } from "react";
-import { TodosContext } from "../../TodosContext";
+import { useTodos } from "../../TodosContext";
 import "./Todo.scss";
 
 export default function Todo({ todo }) {
-    const store = useContext(TodosContext);
+    const store = useTodos();
 
     return (
         <>
