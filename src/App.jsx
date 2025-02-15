@@ -9,7 +9,7 @@ export default function App() {
     <>
       <main>
         <TodosProvider>
-          <Header appName="To-Do List with React" />
+          <Header appName="To-Do List" />
           <Home />
         </TodosProvider>
       </main>

@@ -9,11 +9,20 @@ const initialTodos = [
 
 export default function TodosProvider({children}) {
     const [todos, dispatch] = useReducer(todosReducer, initialTodos);
+    const [modalIsActive, setModalIsActive] = useState(false);
     
     return (
         <>
             <main>
-                <TodosContext.Provider value={{ todos, dispatch }}>
+                <TodosContext.Provider 
+                    value={
+                        { 
+                            todos, 
+                            dispatch,
+                            modalIsActive,
+                            setModalIsActive 
+                        }
+                }>
                     {children}
                 </TodosContext.Provider>
             </main>
@@ -31,6 +40,12 @@ function todosReducer(todos, action) {
             if (confirm("Are you sure you want to delete the to-do?")) {
                 return todos.filter(todo => todo.id !== action.id);
             }
+        }
+
+        case "added": {
+            let newTodo = action.newTodo;
+            newTodo.id = todos.length ? Math.max(...todos.map(todo => todo.id)) + 1: 1;
+            return [...todos, action.newTodo];
         }
 
         case "toggledIsDone": {
