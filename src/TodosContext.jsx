@@ -10,6 +10,18 @@ const initialTodos = [
 export default function TodosProvider({children}) {
     const [todos, dispatch] = useReducer(todosReducer, initialTodos);
     const [modalIsActive, setModalIsActive] = useState(false);
+    const [filterBy, setFilterBy] = useState("");
+
+    function filteredTodos() {
+        switch (filterBy) {
+            case "todo":
+                return todos.filter(todo => !todo.isDone);
+            case "done":
+                return todos.filter(todo => todo.isDone);
+            default:
+                return todos;
+        }
+    }
     
     return (
         <>
@@ -20,7 +32,10 @@ export default function TodosProvider({children}) {
                             todos, 
                             dispatch,
                             modalIsActive,
-                            setModalIsActive 
+                            setModalIsActive,
+                            filterBy,
+                            setFilterBy,
+                            filteredTodos 
                         }
                 }>
                     {children}
