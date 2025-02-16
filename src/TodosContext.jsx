@@ -1,11 +1,16 @@
 import { createContext, useReducer, useContext, useState, useEffect } from "react";
 export const TodosContext = createContext("");
  
-const initialTodos = [
-    { id: 0, title: 'Do Groceries', description: 'Buy apples, rice, juice and toilet paper.', isDone: true },
-    { id: 1, title: 'Study React', description: 'Understand context & reducers.', isDone: false },
-    { id: 2, title: 'Learn Redux', description: 'Learn state management with Redux', isDone: false }
-];
+const initialTodos = (() => {
+    try {
+        const storedTodos = localStorage.getItem("todos");
+        return storedTodos ? JSON.parse(storedTodos) : [];
+    } catch (error) {
+        console.error("Error loading to-dos from localStorage:", error);
+        return [];
+    }
+})();
+
 
 export default function TodosProvider({children}) {
     const [todos, dispatch] = useReducer(todosReducer, initialTodos);
@@ -22,6 +27,10 @@ export default function TodosProvider({children}) {
                 return todos;
         }
     }
+
+    useEffect(() => {
+        localStorage.setItem("todos", JSON.stringify(todos))
+    }, [todos]);
     
     return (
         <>
@@ -54,6 +63,8 @@ function todosReducer(todos, action) {
         case "deleted": {
             if (confirm("Are you sure you want to delete the to-do?")) {
                 return todos.filter(todo => todo.id !== action.id);
+            } else {
+                return todos;
             }
         }
 
