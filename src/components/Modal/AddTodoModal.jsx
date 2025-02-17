@@ -1,4 +1,5 @@
 import { useTodos } from "../../TodosContext.jsx";
+import notificationService from "../../utils/notificationService.jsx";
 
 export default function AddTodoModal() {
 
@@ -12,6 +13,7 @@ export default function AddTodoModal() {
 
         if (newTodo.title && newTodo.description) {
             store.dispatch({ type: "added", newTodo });
+            notificationService.success("New to-do added!");
             store.setModalIsActive(false);
         } else {
             alert("Please enter the title and description for the to-do.");

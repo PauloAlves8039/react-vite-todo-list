@@ -71,16 +71,13 @@ function todosReducer(todos, action) {
         }
 
         case "toggledIsDone": {
-            return (todos.map(todo => {
-                if (todo.id === action.id) {
-                    todo.isDone = !todo.isDone;
-                    return todo;
-                } else {
-                    return todo;
-                }
-            }
-            ));
+            return todos.map(todo => 
+                todo.id === action.id 
+                    ? { ...todo, isDone: !todo.isDone }
+                    : todo
+            );
         }
+        
     }
 
 }
